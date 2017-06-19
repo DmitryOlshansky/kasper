@@ -73,5 +73,7 @@ Now to sum up what my first iteration attempts to change compared to this baseli
 
 The second iteration will focus on more juicy stuff such as thread cache, parallel marking and concurrent marking utilizing the fork trick.
 
+The third iteration (if we get to it) would be a completely new design - a mark-region collector with design inspired by [immix](http://www.cs.utexas.edu/users/speedway/DaCapo/papers/immix-pldi-2008.pdf). 
+
 This concludes my plans and on this optimistic note I will warn that it's going to start as Linux specific, slowly becoming POSIX specific with Windows support being a distant posibility.
 
