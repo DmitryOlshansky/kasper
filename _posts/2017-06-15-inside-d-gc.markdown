@@ -15,7 +15,7 @@ If we were to ignore some global paraphernalia the GC is basically an array of p
 Importantly pools come in two flavors: small object pool and large object pool. Small pools allocate objects up to 2kb in size, the rest is serviced by large pools. Small pools are actually more interesting so let's look at them first. 
 
 ![Small pool structure](http://olshansky.me/assets/images/SmallPool.jpg "Small pool structure")
-Any small allocation is first rounded up to one of power of 2 size classes - 16, 32, 64, 128, 256, 512, 1024, 2048.  Then a global freelist for this size class is checked, failing that we go on to locate a small pool. That small pool would allocate a new page and link it up as a free list of objects of this size class. Here comes the first big mistake of the current design - size class is assigned on a page basis, therefore we need a table that maps each page of a pool to a size class (confusingly called pagetable). Now to find the start of object by internal pointer we first locate the page it belongs to, then lockup the size class, and finally do a bitmask to get to the start of object. More over metadata is a bunch of simple bit-tables that now has to cope with heterogeneous pages, it does so by having ~7 bits per 16 bytes regardless of the object size.
+Any small allocation is first rounded up to one of power of 2 size classes - 16, 32, 64, 128, 256, 512, 1024, 2048.  Then a global freelist for this size class is checked, failing that we go on to locate a small pool. That small pool would allocate a new page and link it up as a free list of objects of this size class. Here comes the first big mistake of the current design - size class is assigned on a page basis, therefore we need a table that maps each page of a pool to a size class (confusingly called pagetable). Now to find the start of an object by internal pointer we first locate the page it belongs to, then lookup the size class, and finally do a bitmask to get to the start of object. More over metadata is a bunch of simple bit-tables that now has to cope with heterogeneous pages, it does so by having ~7 bits per 16 bytes regardless of the object size.
 
 What motivated that particular design? I have 2 hypotheses. First is being afraid to reserve memory for underutilized pools, which is a non-issue due to virtual memory with lazy commit. Second is being afraid of having too many pools, slowing down allocation and interestingly marking. The last one is more likely the reason, as indeed GC does a linear scan over pools quite often and a binary search for every potential pointer(!) during the marking phase.
 
@@ -25,7 +25,7 @@ Concluding our overview of small pool, we should also look at the selection of s
 
 ![Large pool structure](http://olshansky.me/assets/images/LargePool.jpg "Large pool structure")
 
-Let's have a look at large object pools. First thing to note is that its granularity is a memory page (4kb) for both metadata and allocations. Free runs of pages are linked in one free list which is linearly scanned for every allocation request. This is the 4th mistake, that is not bothering with performance of large object allocation at all. To locate a start of an object a separate table is maintained where for every page an index of the start of the object it belongs to is stored. The scheme is sensible until one consuders big allocations of 100+ Mb, as it will likely fail to reallocate in place causing a new pool to be allocated and would waste huge amounts of memory on metadata for essentially one object.
+Let's have a look at large object pools. First thing to note is that its granularity is a memory page (4kb) for both metadata and allocations. Free runs of pages are linked in one free list which is linearly scanned for every allocation request. This is the 4th mistake, that is not bothering with performance of large object allocation at all. To locate a start of an object a separate table is maintained where for every page an index of the start of the object it belongs to is stored. The scheme is sensible until one considers big allocations of 100+ Mb, as it will likely fail to reallocate in place causing a new pool to be allocated and would waste huge amounts of memory on metadata for essentially one object.
 
 ## Collection
 
@@ -40,8 +40,8 @@ The actual marking phase is markAll call, that just delegates apropriate ranges 
 2. Following that a dreaded binary search to find the right pool for the pointer.
 3. Regardless of the pool type a lookup into a pagetable for the current pool to see its size class or if it's a large object or even free memory that is not scanned. There is a tiny optimization in that this lookup also tells us if it's a start of large object or continuation. We have 3 cases  - small object, large object start or large object continuation, the last two are identical save for one extra table lookup.
 4. Determining the start of the object - bit masking with the right mask plus in case of large object continuation an offset table lookup. 
-5. In case of large object there is a no interior pointer bit that allows ignoring internal pointers to the object.
-6. Finally check and set bit in mark bits, if wasn't marked before or noscan bit is not set add the object to stack of memory to scan.
+5. In case of large object there is a "no interior pointer" bit that allows ignoring internal pointers to the object.
+6. Finally check and set bit in mark bits, if wasn't marked before or noscan bit is not set add the object to the stack of memory to scan.
 
 Ignoring the curious stack limiting manipulations (to avoid stack overflow yet try to use the stack allocation) this is all there is to mark function. Apart from already mentioned pool search, deficiencies are still numerous. Mixing no-pointers memory (noscan) with normal memory in the same pool gives us an extra bit-table lookup on hot path. Likewise a pagetable lookup could be easily avoided had we segregated the pools by size class. Not to mention the dubious optimization of no interior pointers bit that not only promotes unsafe code (an object can be collected while still being pointed at) but also introduces a few extra checks on the critical path for all large objects, including a potential bit-table lookup.
 
@@ -52,13 +52,13 @@ Final stage - recover, this will actually rebuild free lists. It is again a line
 ## What's not there
 So far I've been criticizing things that are in plain sight, now it's time to go on to things that are simply non-existent. 
 
-Thread cache is one big omission, keeping in mind that D's GC is dated by early 2000s it's not that surprising.  Every modern allocator has some form of thread cache, some try to maintain a per processor cache. A cache works by each thread basically doing allocations in bulk, keeping a stash of allocations for future. This amortizes the cost of locking the shared data-structures of heap. Speaking of which there is a bit of fine grained locking present, but not on say per pool level.
+Thread cache is one big omission, keeping in mind that D's GC is dated by early 2000s it's not that surprising.  Every modern allocator has some form of thread cache, some try to maintain a per processor cache. A cache works by each thread basically doing allocations in bulk, keeping a stash of allocations for the future. This amortizes the cost of locking the shared data-structures of heap. Speaking of which there is a bit of fine grained locking present, but not say on per pool level.
 
 Parallel marking is another example of modern feature that is now totally expected of any garbage collector. Also quite popular are concurrent and mostly concurrent GCs whereby the marking and less often sweep/compaction is done while application threads are running.
 
 ## Closing thoughts
 
-It got pretty lengthy and more involved then I would hope for. Still I belive this post carries the message across - D's GC is slow not because of some fundamental limitation but because of a half a dozen or so of bad implementation decisions. In the same vein one could easily build a precise generational GC that is slow, purely missing out on good implementation techniques. 
+The post got pretty lengthy and more involved then I would hope. Still I belive it carries the message across - D's GC is slow not because of some fundamental limitation but because of a half a dozen or so of bad implementation decisions. In the same vein one could easily build a precise generational GC that is slow, purely missing out on good implementation techniques. 
 
 Now to sum up what my first iteration attempts to change compared to this baseline.
 - Segregate small pools on size class.
