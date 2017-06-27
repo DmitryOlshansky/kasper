@@ -6,10 +6,10 @@ markdown: kramdown
 highlighter: pygments
 logo: false
 paginate: 15
-baseurl: ""
+baseurl: '/'
 domain_name: 'http://olshansky.me'
 google_analytics: 'UA-101003587-1'
-gems: [jekyll-paginate, jekyll-sitemap]
+gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
 url:            'http://olshansky.me'
