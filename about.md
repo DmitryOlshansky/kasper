@@ -18,9 +18,17 @@ Working at the next-gen of banking in Russia - [Tinkoff](https://www.tinkoff.ru 
 [GitHub](https://github.com/DmitryOlshansky)
 [LinkedIn](https://ru.linkedin.com/in/olshanskyd)
 
+## Talks and publications
+### D language
+* [Regular expressions article for dlang.org](https://dlang.org/regular-expression.html)
 
+* [Inside regular expressions in D at DConf2014](http://dconf.org/2014/talks/olshansky.html)
 
+* [Pry - pragmatic parser combinators at DConf2017](https://m.youtube.com/watch?v=NiHU9Mcwkvg)
 
+### Academic stuff, for highly inclined
+* [On selection of parallel algorithm for JSM method](http://link.springer.com/article/10.3103/S0005105515040032?wt_mc=internal.event.1.SEM.ArticleAuthorOnlineFirst)
+* [WebJSM system](https://link.springer.com/article/10.3103/S0005105515050039)
 
 
 
