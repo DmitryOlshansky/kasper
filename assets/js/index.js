@@ -62,7 +62,7 @@
     });
 
     // smartresize
-    jQuery.fn[sr] = function(fn) { return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+    $.fn[sr] = function(fn) { return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
     // Arctic Scroll by Paul Adam Davis
     // https://github.com/PaulAdamDavis/Arctic-Scroll
@@ -95,4 +95,4 @@
         });
 
     };
-})(jQuery, 'smartresize');
+})(window.jQuery || window.Zepto, 'smartresize');
