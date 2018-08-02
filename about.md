@@ -26,6 +26,8 @@ Working at the next-gen of banking in Russia - [Tinkoff](https://www.tinkoff.ru 
 
 * [Pry - pragmatic parser combinators at DConf2017](https://m.youtube.com/watch?v=NiHU9Mcwkvg)
 
+* [Unified Concurrent D Run-time](https://www.youtube.com/watch?v=cnfjyWofYeY)
+
 ### Academic stuff, for highly inclined
 * [On selection of parallel algorithm for JSM method](http://link.springer.com/article/10.3103/S0005105515040032?wt_mc=internal.event.1.SEM.ArticleAuthorOnlineFirst)
 * [WebJSM system](https://link.springer.com/article/10.3103/S0005105515050039)
