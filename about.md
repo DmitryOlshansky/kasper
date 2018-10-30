@@ -5,11 +5,25 @@ title: About me
 
 I'm a computer science researcher, with broad spectrum of interests. Over time my focus changed from Robotics to AI to Compilers and Runtimes. 
 
+## Philosophy
+
+The world is too simple to believe it.
+
+I bet *it* all started as a sick joke.. Humor is harmful.
+
+Two good brains is all *it* takes.
+
+Scratch any cynic and you will find a disappointed idealist. (George Carlin)
+
+Whether you believe you can do a thing or not, you are right. (Henry Ford)
+
+We become what we do.	(Pierre Gauthier)
+
 ## Things I do
 
 Constantly approaching the defense of my PhD thesis on an obscure machine learning technique "JSM method" in application to chemestry.
 
-Contibuting to the D programming language - authored 2 modules of standard library, also do tools and other small additions.
+Contributing to the D programming language - authored 2 modules of standard library, also do tools and other small additions.
 
 Working at the next-gen of banking in Russia - [Tinkoff](https://www.tinkoff.ru "Tinkoff").
 
