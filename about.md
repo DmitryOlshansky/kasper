@@ -9,7 +9,9 @@ I'm a computer science researcher, with broad spectrum of interests. Over time m
 
 The world is too simple to believe it.
 
-I bet *it* all started as a sick joke.. Humor is harmful.
+God is what you make it.
+
+I bet *it* all started as a sick *joke*... Humor is harmful like that.
 
 Two good brains is all *it* takes.
 
