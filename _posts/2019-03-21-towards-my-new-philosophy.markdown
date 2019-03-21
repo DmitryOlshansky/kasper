@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Towards my new philosophy"
-date:   2017-06-14 00:38:00
+date:   2019-03-21 20:00:00
 categories: philosophy
 ---
 
