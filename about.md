@@ -7,19 +7,13 @@ I'm a computer science researcher, with broad spectrum of interests. Over time m
 
 ## Philosophy
 
-The world is too simple to believe it.
+* The world is too simple to believe it.
 
-God is what you make it.
+* Two good brains is all *it* takes.
 
-I bet *it* all started as a sick *joke*... Humor is harmful like that.
+* Whether you believe you can do a thing or not, you are right. (Henry Ford)
 
-Two good brains is all *it* takes.
-
-Scratch any cynic and you will find a disappointed idealist. (George Carlin)
-
-Whether you believe you can do a thing or not, you are right. (Henry Ford)
-
-We become what we do.	(Pierre Gauthier)
+* We become what we do.	(Pierre Gauthier)
 
 ## Things I do
 
