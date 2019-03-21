@@ -44,5 +44,5 @@ Every single time we reach for the next unthinkable it's somehow eventually beco
 So have your faith in our bright future, and be mindful of the past, folks like me can’t wait to see the time where it wouldn’t be so hard to coordinate ourselves to let everyone live like in a dream.
 
 
-1. [Douglas Adams. Dirk Gently's Holistic Detective Agency](https://en.wikipedia.org/wiki/Dirk_Gently%27s_Holistic_Detective_Agency)
+1. Douglas Adams. [Dirk Gently's Holistic Detective Agency](https://en.wikipedia.org/wiki/Dirk_Gently%27s_Holistic_Detective_Agency)
 2. John Archibald Wheeler. [INFORMATION, PHYSICS, QUANTUM: THE SEARCH FOR LINKS](http://cqi.inf.usi.ch/qic/wheeler.pdf)
