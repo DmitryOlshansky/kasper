@@ -14,4 +14,4 @@ gems: [jekyll-paginate]
 # Details for the RSS feed generator
 url:            'http://olshansky.me'
 author:         'Dmitry Olshansky'
-
+future: true # post articles with future dates
